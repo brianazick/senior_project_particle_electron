@@ -30,7 +30,7 @@ void setup()
     Particle.function("mosfet",actuateMOSFETWeb); // declare the MOSFET actuation function as a Particle function so that it can be called via their RES API
     /**
      * This is the curl request that must be sent to actuate a power button.
-     * curl https://api.particle.io/v1/devices/56002d001950483553353620/mosfet -d access_token=013b79d222f5e7dd12698c8ad79684755d8468cf -d arg="power_button"
+     * curl https://api.particle.io/v1/devices/56002d001950483553353620/mosfet -d access_token=REDACTED -d arg="power_button"
      */
 }
 

@@ -13,7 +13,6 @@ int mosfet = DAC1; //analog output pin for mosfet Vgs
 
 int button = D0; //the secondary button is on pin D0
 bool button_state; // temp var for button state
-bool prev_button_state; //temp var for previous button state
 
 int led_power = B1; // the power LED header on the motherboard
 bool read_state_power; // the current power state of the computer
@@ -35,13 +34,13 @@ void setup()
     Particle.function("mosfet", actuateMOSFETWeb); // declare the MOSFET actuation function as a Particle function so that it can be called via their REST API
     /**
      * This is the curl request that must be sent to actuate a power button.
-     * curl https://api.particle.io/v1/devices/56002d001950483553353620/mosfet -d access_token=013b79d222f5e7dd12698c8ad79684755d8468cf -d arg="power_button"
+     * curl https://api.particle.io/v1/devices/56002d001950483553353620/mosfet -d access_token=REDACTED -d arg="power_button"
      */
 
     Particle.variable("power_state", read_state_power); // declare the computer power state variable as a Particle variable so that it can be called via their REST API
     /**
      * This is the curl request that must be sent to read in the power state.
-     * curl https://api.particle.io/v1/devices/56002d001950483553353620/power_state?access_token=013b79d222f5e7dd12698c8ad79684755d8468cf
+     * curl https://api.particle.io/v1/devices/56002d001950483553353620/power_state?access_token=REDACTED
      */
 }
 
@@ -50,7 +49,6 @@ void setup()
  */
 void loop()
 {
-    prev_button_state = button_state;
     button_state = digitalRead(button); // read the input pin
 
     if(!button_state) {
@@ -78,10 +76,10 @@ void actuateMOSFET(){
 }
 
 /** Particle.functions always take a string as an argument and return an integer.
-     * The string passed indicates the command sent by the API request.
-     * If the command is correct, in this case "power_button", the desired action is carried out and a 1 is returned.
-     * If an incorrect command is passed, -1 is returned.
-     */
+  * The string passed indicates the command sent by the API request.
+  * If the command is correct, in this case "power_button", the desired action is carried out and a 1 is returned.
+  * If an incorrect command is passed, -1 is returned.
+  */
 int actuateMOSFETWeb(String command){
     if (command == "power_button") {
         actuateMOSFET();
